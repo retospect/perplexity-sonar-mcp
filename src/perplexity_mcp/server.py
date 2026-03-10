@@ -1,8 +1,8 @@
 """Perplexity MCP server — web-grounded search for LLM tool use.
 
-Three tools with escalating depth:
-  web_search  — quick facts via Sonar (2-5s)
-  web_ask     — thorough answer via Sonar Pro (5-15s)
+Tools registered in escalating order (cheapest first):
+  web_search    — quick facts via Sonar (2-5s)
+  web_ask       — thorough answer via Sonar Pro (5-15s)
   deep_research — comprehensive multi-step analysis (2-10 min)
 
 Requires PERPLEXITY_API_KEY environment variable.
