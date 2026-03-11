@@ -7,7 +7,7 @@ name = "perplexity-sonar-mcp"
 version = "0.2.0"
 description = "Tiny MCP server for Perplexity Sonar web search"
 requires-python = ">=3.11"
-license = "MIT"
+license = "GPL-3.0-or-later"
 authors = [{name = "Reto Stamm", email = "reto@retostamm.com"}]
 readme = "README.md"
 dependencies = [
