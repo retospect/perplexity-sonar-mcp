@@ -7,6 +7,9 @@ name = "perplexity-mcp"
 version = "0.1.0"
 description = "Tiny MCP server for Perplexity Sonar web search"
 requires-python = ">=3.11"
+license = "MIT"
+authors = [{name = "Reto Stamm", email = "reto@retostamm.com"}]
+readme = "README.md"
 dependencies = [
     "mcp>=1.0",
     "httpx>=0.27",
@@ -20,3 +23,19 @@ packages = ["src/perplexity_mcp"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.bumpversion]
+current_version = "0.1.0"
+commit = true
+tag = true
+tag_name = "v{new_version}"
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search = 'version = "{current_version}"'
+replace = 'version = "{new_version}"'
+
+[[tool.bumpversion.files]]
+filename = "src/perplexity_mcp/__init__.py"
+search = '__version__ = "{current_version}"'
+replace = '__version__ = "{new_version}"'
