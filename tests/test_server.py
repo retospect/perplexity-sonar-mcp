@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from perplexity_mcp.server import (
+from perplexity_sonar_mcp.server import (
     _format_response,
     _sonar_call,
     web_ask,
@@ -53,7 +53,7 @@ class TestSonarCall:
             with pytest.raises(ValueError, match="PERPLEXITY_API_KEY"):
                 _sonar_call("test", model="sonar")
 
-    @patch("perplexity_mcp.server.httpx.post")
+    @patch("perplexity_sonar_mcp.server.httpx.post")
     def test_basic_call(self, mock_post):
         mock_resp = MagicMock()
         mock_resp.json.return_value = {
@@ -75,7 +75,7 @@ class TestSonarCall:
         assert payload["messages"][0]["content"] == "what is water"
         assert payload["return_citations"] is True
 
-    @patch("perplexity_mcp.server.httpx.post")
+    @patch("perplexity_sonar_mcp.server.httpx.post")
     def test_academic_focus(self, mock_post):
         mock_resp = MagicMock()
         mock_resp.json.return_value = {"choices": [{"message": {"content": "a"}}]}
@@ -88,7 +88,7 @@ class TestSonarCall:
         payload = mock_post.call_args.kwargs.get("json") or mock_post.call_args[1]["json"]
         assert payload["search_mode"] == "academic"
 
-    @patch("perplexity_mcp.server.httpx.post")
+    @patch("perplexity_sonar_mcp.server.httpx.post")
     def test_finance_focus(self, mock_post):
         mock_resp = MagicMock()
         mock_resp.json.return_value = {"choices": [{"message": {"content": "a"}}]}
@@ -101,7 +101,7 @@ class TestSonarCall:
         payload = mock_post.call_args.kwargs.get("json") or mock_post.call_args[1]["json"]
         assert payload["search_mode"] == "sec"
 
-    @patch("perplexity_mcp.server.httpx.post")
+    @patch("perplexity_sonar_mcp.server.httpx.post")
     def test_recency_filter(self, mock_post):
         mock_resp = MagicMock()
         mock_resp.json.return_value = {"choices": [{"message": {"content": "a"}}]}
@@ -114,7 +114,7 @@ class TestSonarCall:
         payload = mock_post.call_args.kwargs.get("json") or mock_post.call_args[1]["json"]
         assert payload["search_recency_filter"] == "week"
 
-    @patch("perplexity_mcp.server.httpx.post")
+    @patch("perplexity_sonar_mcp.server.httpx.post")
     def test_no_focus_no_recency(self, mock_post):
         mock_resp = MagicMock()
         mock_resp.json.return_value = {"choices": [{"message": {"content": "a"}}]}
@@ -133,7 +133,7 @@ class TestSonarCall:
 
 
 class TestWebSearch:
-    @patch("perplexity_mcp.server._sonar_call")
+    @patch("perplexity_sonar_mcp.server._sonar_call")
     def test_returns_formatted(self, mock_call):
         mock_call.return_value = {
             "choices": [{"message": {"content": "MoS2 band gap is 1.8 eV."}}],
@@ -146,7 +146,7 @@ class TestWebSearch:
         # Verify model is sonar
         assert mock_call.call_args.kwargs.get("model") == "sonar" or mock_call.call_args[1].get("model") == "sonar"
 
-    @patch("perplexity_mcp.server._sonar_call")
+    @patch("perplexity_sonar_mcp.server._sonar_call")
     def test_error_handling(self, mock_call):
         mock_call.side_effect = RuntimeError("connection refused")
         result = web_search("test")
@@ -155,7 +155,7 @@ class TestWebSearch:
 
 
 class TestWebAsk:
-    @patch("perplexity_mcp.server._sonar_call")
+    @patch("perplexity_sonar_mcp.server._sonar_call")
     def test_uses_sonar_pro(self, mock_call):
         mock_call.return_value = {
             "choices": [{"message": {"content": "Detailed answer."}}],
@@ -164,7 +164,7 @@ class TestWebAsk:
         web_ask("compare Pd vs Pt catalysts")
         assert mock_call.call_args.kwargs.get("model") == "sonar-pro" or mock_call.call_args[1].get("model") == "sonar-pro"
 
-    @patch("perplexity_mcp.server._sonar_call")
+    @patch("perplexity_sonar_mcp.server._sonar_call")
     def test_passes_focus(self, mock_call):
         mock_call.return_value = {
             "choices": [{"message": {"content": "a"}}],

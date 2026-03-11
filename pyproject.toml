@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "perplexity-mcp"
+name = "perplexity-sonar-mcp"
 version = "0.2.0"
 description = "Tiny MCP server for Perplexity Sonar web search"
 requires-python = ">=3.11"
@@ -16,10 +16,10 @@ dependencies = [
 ]
 
 [project.scripts]
-perplexity-mcp = "perplexity_mcp.server:main"
+perplexity-sonar-mcp = "perplexity_sonar_mcp.server:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/perplexity_mcp"]
+packages = ["src/perplexity_sonar_mcp"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -36,6 +36,6 @@ search = 'version = "{current_version}"'
 replace = 'version = "{new_version}"'
 
 [[tool.bumpversion.files]]
-filename = "src/perplexity_mcp/__init__.py"
+filename = "src/perplexity_sonar_mcp/__init__.py"
 search = '__version__ = "{current_version}"'
 replace = '__version__ = "{new_version}"'
